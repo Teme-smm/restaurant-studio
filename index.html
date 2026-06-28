@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temesgen Agegnehu — Social media for restaurants</title>
+<meta name="description" content="A one-person studio for restaurants that care how they are seen. Two-week trial, no payment, no contracts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f7f4ee;
+  --bg-2:#efeae0;
+  --bg-3:#e6e0d3;
+  --ink:#0e0e0e;
+  --ink-2:#1a1a1a;
+  --paper-on-ink:#f0ebe0;
+  --accent:#a04a2a;
+  --muted:rgba(14,14,14,.55);
+  --muted-2:rgba(14,14,14,.4);
+  --line:rgba(14,14,14,.12);
+  --line-soft:rgba(14,14,14,.06);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+::selection{background:var(--ink);color:var(--bg)}
+
+.container{max-width:1480px;margin:0 auto;padding:0 32px}
+.container-tight{max-width:1180px;margin:0 auto;padding:0 32px}
+
+.eye{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:500;display:inline-flex;align-items:center;gap:14px}
+.eye::before{content:'';width:28px;height:1px;background:var(--ink);opacity:.5}
+.eye.no-line::before{display:none}
+
+/* ── SCROLL PROGRESS ── */
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ink);z-index:200;transition:width .1s linear}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(247,244,238,.85);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  padding:20px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,padding .3s;
+}
+nav.scrolled{border-color:var(--line);padding:14px 32px}
+.nav-name{font-family:var(--serif);font-size:22px;font-style:italic;font-weight:400;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.nav-name::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+.nav-mid{display:flex;gap:32px;font-size:13px;color:var(--muted)}
+.nav-mid a{transition:color .2s;position:relative}
+.nav-mid a:hover{color:var(--ink)}
+.nav-mid a::after{content:'';position:absolute;left:0;right:100%;bottom:-4px;height:1px;background:var(--ink);transition:right .4s var(--ease)}
+.nav-mid a:hover::after{right:0}
+.nav-right{display:flex;gap:14px;align-items:center}
+.nav-status{
+  font-size:11px;letter-spacing:.05em;color:var(--accent);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.nav-status .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.nav-cta{padding:10px 20px;border:1px solid var(--ink);border-radius:99px;font-size:12px;letter-spacing:.05em;transition:background .3s,color .3s,padding .3s}
+.nav-cta:hover{background:var(--ink);color:var(--bg);padding-right:28px}
+
+/* ── HERO ── */
+.hero{padding:130px 32px 80px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;max-width:1480px;margin:0 auto}
+
+.hero-eye{margin-bottom:40px;opacity:0;transform:translateY(20px);transition:opacity 1s var(--ease) .1s,transform 1s var(--ease) .1s}
+.hero-eye.in{opacity:1;transform:none}
+
+.hero-h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(48px,7.5vw,128px);line-height:.96;letter-spacing:-.025em;
+  margin-bottom:44px;
+}
+.hero-h1 em{font-style:italic}
+.hero-h1 .ln{display:block;overflow:hidden;padding-bottom:.05em}
+.hero-h1 .ln span{display:inline-block;transform:translateY(110%);transition:transform 1.1s var(--ease)}
+.hero-h1 .ln.in span{transform:translateY(0)}
+
+.hero-sub{
+  font-family:var(--serif);font-size:22px;font-style:italic;line-height:1.4;color:var(--ink);
+  max-width:560px;margin-bottom:36px;
+  opacity:0;transform:translateY(16px);
+  transition:opacity 1s var(--ease) .8s,transform 1s var(--ease) .8s;
+}
+.hero-sub.in{opacity:1;transform:none}
+
+.hero-ctas{display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;transform:translateY(16px);transition:opacity 1s var(--ease) 1s,transform 1s var(--ease) 1s}
+.hero-ctas.in{opacity:1;transform:none}
+.btn-primary{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:99px;background:var(--ink);color:var(--bg);font-size:13px;letter-spacing:.05em;transition:background .3s,padding .3s,gap .3s}
+.btn-primary:hover{padding-right:36px;gap:18px}
+.btn-primary span{transition:transform .3s}
+.btn-primary:hover span{transform:translateX(4px)}
+.btn-secondary{padding:16px 24px;border-radius:99px;border:1px solid var(--ink);font-size:13px;letter-spacing:.05em;transition:background .3s,color .3s}
+.btn-secondary:hover{background:var(--ink);color:var(--bg)}
+
+.hero-meta-strip{
+  display:flex;gap:36px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line);
+  opacity:0;transition:opacity 1s ease 1.2s;
+}
+.hero-meta-strip.in{opacity:1}
+.hero-meta-item{display:flex;flex-direction:column;gap:4px}
+.hero-meta-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);font-weight:500}
+.hero-meta-val{font-family:var(--serif);font-style:italic;font-size:16px}
+
+/* PHONE MOCKUP */
+.hero-phone{
+  justify-self:center;position:relative;
+  width:300px;height:600px;
+  background:#0a0a0a;border-radius:48px;
+  padding:14px;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.06) inset;
+  transform:rotate(-3deg);
+  opacity:0;
+  transition:opacity 1.2s var(--ease) .4s,transform 1.2s var(--ease) .4s;
+}
+.hero-phone.in{opacity:1}
+.hero-phone::before{
+  content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:110px;height:28px;background:#000;border-radius:0 0 18px 18px;z-index:2;
+}
+.phone-screen{
+  width:100%;height:100%;border-radius:36px;overflow:hidden;
+  background:#0a0a0a;position:relative;
+}
+.phone-screen img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.2s ease;
+}
+.phone-screen img.on{opacity:1}
+.phone-tag{
+  position:absolute;bottom:24px;left:18px;right:18px;
+  color:#fff;font-family:var(--serif);font-style:italic;font-size:15px;
+  text-shadow:0 1px 12px rgba(0,0,0,.6);
+  display:flex;justify-content:space-between;align-items:flex-end;
+  z-index:2;pointer-events:none;
+}
+.phone-tag-l{display:flex;flex-direction:column;gap:2px}
+.phone-tag-sm{font-family:var(--sans);font-style:normal;font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
+
+.hero-sticker{
+  position:absolute;bottom:60px;left:-30px;
+  width:130px;height:130px;border-radius:50%;
+  background:var(--ink);color:var(--paper-on-ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;font-size:13px;text-align:center;
+  padding:16px;line-height:1.25;
+  animation:spin 22s linear infinite;
+}
+.hero-sticker span{display:block}
+.hero-sticker .big{font-size:26px;font-style:normal;font-family:var(--serif);font-weight:400;display:block;margin-bottom:2px}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* ── CATEGORY MARQUEE ── */
+.cat-marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:28px 0;overflow:hidden;
+}
+.cat-track{display:flex;gap:60px;width:max-content;animation:slide 60s linear infinite;will-change:transform}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.cat-item{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--ink);display:flex;align-items:center;gap:60px}
+.cat-item::after{content:'✦';font-style:normal;font-size:12px;opacity:.4}
+
+/* ── PROBLEM ── */
+.problem{padding:160px 0 140px;border-bottom:1px solid var(--line)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+.problem-h{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(36px,5.5vw,80px);line-height:1.02;letter-spacing:-.02em;
+}
+.problem-h em{font-style:italic;color:var(--muted)}
+.problem-body{padding-top:60px;font-size:16px;line-height:1.7;color:var(--ink)}
+.problem-body p+p{margin-top:18px}
+.problem-body em{font-style:italic;color:var(--muted)}
+
+/* ── WORK MARQUEE ── */
+.work-section{padding:120px 0 110px;position:relative;background:var(--bg-2);border-bottom:1px solid var(--line)}
+.work-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 32px;margin-bottom:48px;max-width:1480px;margin-left:auto;margin-right:auto;gap:32px;flex-wrap:wrap}
+.work-head-l{max-width:560px}
+.work-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.4vw,56px);line-height:1.02;letter-spacing:-.02em;margin-top:14px}
+.work-head h2 em{font-style:italic}
+.work-link{font-family:var(--serif);font-size:18px;font-style:italic;display:inline-flex;align-items:center;gap:10px;transition:gap .3s}
+.work-link:hover{gap:18px}
+.work-link::after{content:'→';font-style:normal;font-family:var(--sans)}
+
+.marquee-row{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 4%,#000 96%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 4%,#000 96%,transparent 100%)}
+.marquee-track{display:flex;gap:18px;width:max-content;animation:slide 90s linear infinite;will-change:transform;padding:6px 0}
+.marquee-row.reverse .marquee-track{animation-direction:reverse;animation-duration:110s}
+.marquee-row:hover .marquee-track{animation-play-state:paused}
+.mq-tile{
+  flex-shrink:0;width:320px;aspect-ratio:4/5;
+  border-radius:4px;overflow:hidden;
+  background:rgba(14,14,14,.04);
+  position:relative;cursor:zoom-in;
+  transition:transform .5s var(--ease),box-shadow .5s;
+}
+.mq-tile:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(0,0,0,.18)}
+.mq-tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.mq-tile:hover img{transform:scale(1.05)}
+.mq-row-gap{height:18px}
+
+/* ── INSTAGRAM PREVIEW ── */
+.feed{padding:140px 0;border-bottom:1px solid var(--line)}
+.feed-head{text-align:center;margin-bottom:64px;max-width:740px;margin-left:auto;margin-right:auto;padding:0 32px}
+.feed-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5vw,68px);line-height:1.02;letter-spacing:-.02em;margin-top:14px}
+.feed-head h2 em{font-style:italic}
+.feed-head p{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--muted);margin-top:14px}
+
+.profile{
+  max-width:780px;margin:0 auto;
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;
+}
+.profile-head{padding:28px 32px;display:flex;align-items:center;gap:24px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+.profile-pic{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--bg-3);border:1px solid var(--line);overflow:hidden;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.profile-pic img{width:100%;height:100%;object-fit:cover}
+.profile-info{flex:1;min-width:200px}
+.profile-handle{font-family:var(--serif);font-size:22px;font-style:italic;margin-bottom:4px}
+.profile-bio{font-size:13px;color:var(--muted);font-style:italic;font-family:var(--serif)}
+
+.feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft)}
+.feed-tile{aspect-ratio:1;background:var(--bg-3);overflow:hidden;cursor:zoom-in;position:relative}
+.feed-tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.feed-tile:hover img{transform:scale(1.05)}
+
+.feed-note{text-align:center;font-family:var(--serif);font-size:14px;font-style:italic;color:var(--muted);margin-top:32px}
+
+/* ── MENU ── */
+.menu{padding:160px 0;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.menu-head{text-align:center;margin-bottom:80px}
+.menu-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.5vw,80px);line-height:1.02;letter-spacing:-.025em;margin-top:14px}
+.menu-head h2 em{font-style:italic}
+.menu-head p{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--muted);margin-top:14px}
+
+.menu-card{
+  max-width:780px;margin:0 auto;
+  padding:60px;background:var(--bg);border:1px solid var(--line);border-radius:4px;
+  position:relative;
+}
+.menu-card::before,.menu-card::after{
+  content:'';position:absolute;left:30px;right:30px;height:1px;background:var(--line);
+}
+.menu-card::before{top:20px}
+.menu-card::after{bottom:20px}
+
+.menu-section-title{
+  font-family:var(--serif);font-size:13px;font-style:italic;color:var(--accent);
+  letter-spacing:.04em;
+  text-align:center;margin:0 0 24px;padding-top:8px;
+  display:flex;align-items:center;gap:14px;justify-content:center;
+}
+.menu-section-title::before,.menu-section-title::after{content:'';flex:0 0 36px;height:1px;background:var(--line)}
+.menu-section-title:not(:first-child){margin-top:48px}
+
+.menu-row{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:14px;padding:14px 0}
+.menu-row + .menu-row{border-top:1px dotted var(--line)}
+.menu-name{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:-.005em}
+.menu-name em{font-style:italic}
+.menu-dots{border-bottom:1px dotted var(--line);align-self:end;margin-bottom:6px}
+.menu-price{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--accent)}
+.menu-desc{grid-column:1 / 4;font-size:13px;color:var(--muted);font-style:italic;margin-top:-2px;padding-bottom:6px}
+
+/* ── PROCESS ── */
+.process{padding:160px 0;background:var(--ink);color:var(--paper-on-ink);border-bottom:1px solid var(--line)}
+.process .eye{color:rgba(240,235,224,.55)}
+.process .eye::before{background:var(--paper-on-ink);opacity:.4}
+.process-head{margin-bottom:80px}
+.process-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.5vw,80px);line-height:1.02;letter-spacing:-.025em;margin-top:14px;color:var(--paper-on-ink)}
+.process-head h2 em{font-style:italic}
+
+.process-track{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;padding-top:40px}
+.process-track::before{content:'';position:absolute;top:48px;left:8%;right:8%;height:1px;background:rgba(240,235,224,.15);z-index:0}
+.process-step{position:relative;display:flex;flex-direction:column;gap:18px;padding-top:0}
+.process-dot{
+  width:16px;height:16px;border-radius:50%;
+  background:var(--paper-on-ink);border:3px solid var(--ink);
+  margin-bottom:24px;position:relative;z-index:1;
+  box-shadow:0 0 0 1px rgba(240,235,224,.3);
+}
+.process-week{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(240,235,224,.5);letter-spacing:.04em}
+.process-step h3{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em;line-height:1.15}
+.process-step h3 em{font-style:italic}
+.process-step p{font-size:13.5px;line-height:1.65;color:rgba(240,235,224,.7)}
+
+/* ── WHY SOLO ── */
+.why{padding:160px 0;border-bottom:1px solid var(--line)}
+.why-head{text-align:center;margin-bottom:72px;max-width:740px;margin-left:auto;margin-right:auto;padding:0 32px}
+.why-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.5vw,80px);line-height:1.02;letter-spacing:-.025em;margin-top:14px}
+.why-head h2 em{font-style:italic}
+.why-head p{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--muted);margin-top:14px}
+
+.compare{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  max-width:1100px;margin:0 auto;
+}
+.compare-col{
+  padding:48px 40px;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:8px;
+}
+.compare-col:last-child{border-right:0}
+.compare-col.muted{background:var(--bg-2)}
+.compare-col.featured{background:var(--ink);color:var(--paper-on-ink)}
+.compare-col.featured .compare-li{border-color:rgba(240,235,224,.15)}
+.compare-col.featured .compare-li::before{color:rgba(240,235,224,.5)}
+.compare-tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:6px}
+.compare-col.featured .compare-tag{color:rgba(240,235,224,.5)}
+.compare-title{font-family:var(--serif);font-style:italic;font-size:28px;font-weight:400;margin-bottom:24px;letter-spacing:-.01em}
+.compare-list{list-style:none;margin:0;padding:0}
+.compare-li{
+  padding:18px 0;border-bottom:1px solid var(--line);
+  font-size:14.5px;line-height:1.55;
+  display:flex;gap:12px;
+}
+.compare-li:last-child{border-bottom:0}
+.compare-li::before{content:'—';flex-shrink:0;color:var(--muted)}
+
+/* ── PRICING ── */
+.pricing{padding:160px 0;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.pricing-head{margin-bottom:72px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
+.pricing-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.5vw,80px);line-height:1.02;letter-spacing:-.025em;margin-top:14px}
+.pricing-head h2 em{font-style:italic}
+.pricing-head p{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--muted);max-width:420px;justify-self:end}
+
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);background:var(--bg);border-radius:6px;overflow:hidden}
+.tier{padding:48px 36px;border-right:1px solid var(--line);transition:background .3s;position:relative}
+.tier:last-child{border-right:0}
+.tier:hover{background:var(--bg-2)}
+.tier.featured{background:var(--ink);color:var(--paper-on-ink)}
+.tier.featured:hover{background:var(--ink-2)}
+.tier.featured .tier-name,.tier.featured .tier-price,.tier.featured .tier-li{color:var(--paper-on-ink)}
+.tier.featured .tier-price sub,.tier.featured .tier-for{color:rgba(240,235,224,.55)}
+.tier.featured .tier-li{border-color:rgba(240,235,224,.15)}
+.tier.featured .tier-cta{background:var(--paper-on-ink);color:var(--ink)}
+.tier.featured .tier-cta:hover{background:transparent;color:var(--paper-on-ink);border-color:var(--paper-on-ink)}
+.tier-name{font-family:var(--serif);font-size:24px;font-style:italic;font-weight:400;margin-bottom:6px}
+.tier-for{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;font-weight:500}
+.tier-price{font-family:var(--serif);font-size:54px;font-weight:400;letter-spacing:-.02em;line-height:1;margin-bottom:32px}
+.tier-price sup{font-size:20px;vertical-align:super;opacity:.55;margin-right:2px}
+.tier-price sub{font-size:13px;font-family:var(--sans);color:var(--muted);font-weight:400;margin-left:6px;vertical-align:baseline}
+.tier-list{list-style:none;margin-bottom:36px;min-height:200px}
+.tier-li{padding:11px 0;font-size:13px;color:rgba(14,14,14,.78);border-bottom:1px solid var(--line);display:flex;gap:10px}
+.tier-li:last-child{border-bottom:0}
+.tier-li::before{content:'—';color:var(--muted)}
+.tier-cta{
+  display:block;text-align:center;padding:14px;border:1px solid var(--ink);border-radius:99px;
+  font-size:12px;letter-spacing:.05em;background:var(--ink);color:var(--bg);
+  transition:background .3s,color .3s;
+}
+.tier-cta:hover{background:transparent;color:var(--ink)}
+
+.pricing-note{text-align:center;margin-top:32px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted)}
+
+/* ── FAQ ── */
+.faq{padding:160px 0;border-bottom:1px solid var(--line)}
+.faq-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
+.faq-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,68px);line-height:1.02;letter-spacing:-.02em;margin-top:14px}
+.faq-head h2 em{font-style:italic}
+.faq-help{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--muted);margin-top:24px;max-width:340px;line-height:1.5}
+.faq-list{display:flex;flex-direction:column}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:24px 0;text-align:left;
+  font-family:var(--serif);font-size:22px;font-style:italic;line-height:1.3;gap:24px;
+  transition:padding .3s;
+}
+.faq-q:hover{padding-left:8px}
+.faq-q-ic{font-size:20px;font-family:var(--sans);font-style:normal;color:var(--muted);transition:transform .4s var(--ease);flex-shrink:0}
+.faq-item.open .faq-q-ic{transform:rotate(45deg);color:var(--ink)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.faq-a-inner{padding:0 0 28px;font-size:15px;line-height:1.7;color:var(--ink);max-width:560px}
+
+/* ── CONTACT ── */
+.contact{padding:160px 0;background:var(--ink);color:var(--paper-on-ink);border-bottom:1px solid var(--ink)}
+.contact .eye{color:rgba(240,235,224,.55)}
+.contact .eye::before{background:var(--paper-on-ink);opacity:.4}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
+.contact-h{font-family:var(--serif);font-weight:400;font-size:clamp(48px,7vw,100px);line-height:1;letter-spacing:-.025em;margin-top:14px;color:var(--paper-on-ink)}
+.contact-h em{font-style:italic}
+.contact-sub{font-family:var(--serif);font-style:italic;font-size:19px;color:rgba(240,235,224,.7);margin-top:24px;max-width:380px;line-height:1.5}
+
+.contact-meta{margin-top:48px;display:flex;flex-direction:column;gap:18px}
+.contact-meta-row{display:flex;gap:14px;align-items:center;font-size:14px;color:rgba(240,235,224,.85)}
+.contact-meta-row b{font-family:var(--serif);font-style:italic;font-weight:400}
+.contact-meta-row .ic{width:28px;height:28px;border-radius:50%;background:rgba(240,235,224,.08);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+
+.form{display:flex;flex-direction:column;gap:24px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,235,224,.55);font-weight:500;display:block;margin-bottom:8px}
+.field input,.field select,.field textarea{
+  width:100%;padding:14px 0;background:transparent;
+  border:0;border-bottom:1px solid rgba(240,235,224,.18);
+  color:var(--paper-on-ink);font-family:var(--serif);font-size:18px;
+  outline:0;transition:border-color .3s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--paper-on-ink)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(240,235,224,.35);font-style:italic}
+.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f0ebe0' opacity='.5'><polyline points='6,9 12,15 18,9' stroke-width='2'/></svg>");background-repeat:no-repeat;background-position:right 6px center;background-size:18px;cursor:pointer}
+.field select option{background:var(--ink);color:var(--paper-on-ink)}
+.field textarea{resize:vertical;min-height:80px;font-family:var(--serif)}
+.form-submit{
+  margin-top:14px;padding:18px;border:1px solid var(--paper-on-ink);border-radius:99px;
+  background:transparent;color:var(--paper-on-ink);
+  font-family:var(--sans);font-size:13px;letter-spacing:.05em;
+  transition:background .3s,color .3s,opacity .3s;
+}
+.form-submit:hover{background:var(--paper-on-ink);color:var(--ink)}
+.form-submit:disabled{opacity:.7;cursor:not-allowed}
+.form-submit.sent{background:var(--accent);border-color:var(--accent);color:#fff}
+.form-note{font-size:11px;letter-spacing:.04em;color:rgba(240,235,224,.4);margin-top:8px;text-align:center}
+
+/* ── FOOTER ── */
+footer{padding:80px 32px 32px;background:var(--ink);color:var(--paper-on-ink)}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:60px;max-width:1480px;margin:0 auto;flex-wrap:wrap;padding-bottom:60px;border-bottom:1px solid rgba(240,235,224,.1)}
+.footer-l{max-width:380px}
+.footer-name{font-family:var(--serif);font-size:36px;font-style:italic;margin-bottom:14px}
+.footer-tag{font-size:14px;color:rgba(240,235,224,.6);line-height:1.6}
+.footer-cols{display:flex;gap:80px;flex-wrap:wrap}
+.f-col-t{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,235,224,.45);font-weight:500;margin-bottom:18px}
+.f-list{list-style:none}
+.f-list li{margin-bottom:10px;font-size:14px;color:rgba(240,235,224,.85)}
+.f-list a:hover{color:var(--paper-on-ink)}
+
+.footer-mark{
+  font-family:var(--serif);font-size:clamp(80px,18vw,260px);font-weight:400;line-height:.8;
+  text-align:center;margin:60px auto 36px;letter-spacing:-.03em;
+  color:transparent;-webkit-text-stroke:1px rgba(240,235,224,.4);
+  max-width:1480px;
+}
+.footer-bot{display:flex;justify-content:space-between;align-items:center;max-width:1480px;margin:0 auto;font-size:12px;color:rgba(240,235,224,.45);flex-wrap:wrap;gap:8px}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* ── LIGHTBOX ── */
+.lb{position:fixed;inset:0;z-index:300;background:rgba(14,14,14,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px)}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;transform:scale(.94);transition:transform .4s var(--ease);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb.open img{transform:scale(1)}
+.lb-close{position:fixed;top:24px;right:28px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .3s}
+.lb-close:hover{background:rgba(255,255,255,.18);transform:rotate(90deg)}
+.lb-arrow{position:fixed;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb-arrow:hover{background:rgba(255,255,255,.18)}
+.lb-prev{left:24px}.lb-next{right:24px}
+
+/* ── RESPONSIVE ── */
+@media (max-width:1100px){
+  .nav-mid,.nav-status{display:none}
+  .hero{padding:100px 20px 60px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-phone{transform:rotate(0);width:260px;height:520px}
+  .hero-sticker{display:none}
+  .problem,.feed,.menu,.process,.pricing,.why,.faq,.contact{padding:90px 0}
+  .problem-grid,.compare,.faq-grid,.contact-grid,.pricing-head{grid-template-columns:1fr;gap:32px}
+  .pricing-head p{justify-self:start}
+  .process-track{grid-template-columns:1fr 1fr;gap:32px;row-gap:48px}
+  .process-track::before{display:none}
+  .tiers{grid-template-columns:1fr;border-left:0;border-right:0;border-radius:0}
+  .tier{border-right:0;border-bottom:1px solid var(--line)}
+  .tier:last-child{border-bottom:0}
+  .compare-col{border-right:0;border-bottom:1px solid var(--line)}
+  .compare-col:last-child{border-bottom:0}
+  .menu-card{padding:36px 24px}
+  .footer-top{flex-direction:column;gap:36px}
+  .footer-cols{gap:36px}
+  .mq-tile{width:240px}
+  .form-row{grid-template-columns:1fr}
+  .lb-prev{left:8px}.lb-next{right:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#" class="nav-name">Temesgen</a>
+  <div class="nav-mid">
+    <a href="#work">Work</a>
+    <a href="#menu">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="work.html">Full portfolio</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-status"><span class="dot"></span>Accepting new restaurants</span>
+    <a href="#contact" class="nav-cta">Start a project</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eye hero-eye">A one-person studio</span>
+      <h1 class="hero-h1">
+        <span class="ln"><span>Social media</span></span>
+        <span class="ln"><span>for restaurants</span></span>
+        <span class="ln"><span><em>that care.</em></span></span>
+      </h1>
+      <p class="hero-sub">
+        It is just me — Temesgen. Not an agency. Not a team. One person who takes
+        one restaurant seriously at a time.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Start a free 2-week trial <span>→</span></a>
+        <a href="work.html" class="btn-secondary">See the work</a>
+      </div>
+      <div class="hero-meta-strip">
+        <div class="hero-meta-item"><span class="hero-meta-lbl">Trial</span><span class="hero-meta-val">2 weeks, free</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-lbl">Reply</span><span class="hero-meta-val">Within 24h</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-lbl">Contracts</span><span class="hero-meta-val">None</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-lbl">Studio</span><span class="hero-meta-val">One person</span></div>
+      </div>
+    </div>
+
+    <div class="hero-phone" id="hero-phone">
+      <div class="phone-screen" id="phone-screen">
+        <div class="phone-tag">
+          <div class="phone-tag-l">
+            <span class="phone-tag-sm">From your feed</span>
+            <span>Tuesday — pasta night.</span>
+          </div>
+          <span>✦</span>
+        </div>
+      </div>
+      <div class="hero-sticker" aria-hidden="true">
+        <span><span class="big">2</span>weeks free<br>no payment</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── CATEGORY MARQUEE ── -->
+<div class="cat-marquee" aria-hidden="true">
+  <div class="cat-track">
+    <span class="cat-item">Italian</span>
+    <span class="cat-item">Specialty coffee</span>
+    <span class="cat-item">Brasseries</span>
+    <span class="cat-item">Wine bars</span>
+    <span class="cat-item">Patisseries</span>
+    <span class="cat-item">Brunch</span>
+    <span class="cat-item">Cocktail bars</span>
+    <span class="cat-item">Bakeries</span>
+    <span class="cat-item">Seafood</span>
+    <span class="cat-item">Japanese</span>
+    <span class="cat-item">Pizza</span>
+    <span class="cat-item">Italian</span>
+    <span class="cat-item">Specialty coffee</span>
+    <span class="cat-item">Brasseries</span>
+    <span class="cat-item">Wine bars</span>
+    <span class="cat-item">Patisseries</span>
+    <span class="cat-item">Brunch</span>
+    <span class="cat-item">Cocktail bars</span>
+    <span class="cat-item">Bakeries</span>
+    <span class="cat-item">Seafood</span>
+    <span class="cat-item">Japanese</span>
+    <span class="cat-item">Pizza</span>
+  </div>
+</div>
+
+<!-- ── PROBLEM ── -->
+<section class="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <h2 class="problem-h rv">
+        Your kitchen runs <em>flawlessly.</em><br>
+        Your Instagram does not have to be the chaos.
+      </h2>
+      <div class="problem-body rv d1">
+        <p>
+          Most restaurants either ignore their social media or hand it to an agency
+          that posts the same generic stock photo every Tuesday.
+        </p>
+        <p>
+          <em>There is a third way.</em> One person who knows your restaurant well enough
+          to write captions the way you would write them, photograph plates the way
+          your room actually looks, and post things at the rhythm of an actual
+          establishment — not a content factory.
+        </p>
+        <p>
+          You hired a chef who knows your kitchen. You should have someone who knows
+          your feed the same way.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WORK MARQUEE ── -->
+<section class="work-section" id="work">
+  <div class="work-head">
+    <div class="work-head-l">
+      <span class="eye">— A glimpse of the work</span>
+      <h2>Plates, rooms,<br>and <em>quiet rituals.</em></h2>
+    </div>
+    <a href="work.html" class="work-link">See the full portfolio</a>
+  </div>
+  <div class="marquee-row"><div class="marquee-track" id="mq-1"></div></div>
+  <div class="mq-row-gap"></div>
+  <div class="marquee-row reverse"><div class="marquee-track" id="mq-2"></div></div>
+</section>
+
+<!-- ── INSTAGRAM PREVIEW (clearly illustrative) ── -->
+<section class="feed">
+  <div class="feed-head">
+    <span class="eye no-line" style="justify-content:center">— An illustration</span>
+    <h2>Your <em>profile,</em> arranged like a magazine spread.</h2>
+    <p>A glimpse of the kind of grid I build — composed plate by plate, with the room you serve in mind.</p>
+  </div>
+
+  <div class="profile">
+    <div class="profile-head">
+      <div class="profile-pic" id="profile-pic"></div>
+      <div class="profile-info">
+        <div class="profile-handle">@your.restaurant</div>
+        <div class="profile-bio">An illustration of how your grid could look</div>
+      </div>
+    </div>
+    <div class="feed-grid" id="feed-grid">
+      <!-- 9 tiles injected by JS -->
+    </div>
+  </div>
+  <p class="feed-note">— Composed in your tone. Not a claim of past results. —</p>
+</section>
+
+<!-- ── MENU ── -->
+<section class="menu" id="menu">
+  <div class="container">
+    <div class="menu-head">
+      <span class="eye no-line" style="justify-content:center">— What is on offer</span>
+      <h2>The <em>menu</em> of services.</h2>
+      <p>Pick what you need. Skip what you don't. Change later if it stops fitting.</p>
+    </div>
+
+    <div class="menu-card">
+
+      <div class="menu-section-title">— To start —</div>
+
+      <div class="menu-row">
+        <span class="menu-name">The <em>tasting</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">free</span>
+        <p class="menu-desc">Two weeks of real content for your restaurant, no payment, no obligation.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">The <em>profile audit</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">free</span>
+        <p class="menu-desc">A quiet look at your current Instagram and three notes on what could change.</p>
+      </div>
+
+      <div class="menu-section-title">— Daily work —</div>
+
+      <div class="menu-row">
+        <span class="menu-name">Hand-styled <em>posts</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">included</span>
+        <p class="menu-desc">Each piece photographed or selected to match your room — never stock.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">Short <em>reels</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">included</span>
+        <p class="menu-desc">15-second moments — pour, plate, candlelight, hands at work.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">Written <em>captions</em> &amp; hashtags</span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">included</span>
+        <p class="menu-desc">A human writes every line. No "tag your dining partner" prompts.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">Daily <em>stories</em> &amp; engagement</span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">included</span>
+        <p class="menu-desc">Replies to DMs, repost-worthy moments, the small rhythm of a real account.</p>
+      </div>
+
+      <div class="menu-section-title">— On the side —</div>
+
+      <div class="menu-row">
+        <span class="menu-name">Monthly <em>strategy report</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">included</span>
+        <p class="menu-desc">What worked, what did not, what to try next month — written, not generated.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">Static <em>ad creative</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">premium</span>
+        <p class="menu-desc">A small set of beautiful ad creatives for your boosted posts.</p>
+      </div>
+
+      <div class="menu-row">
+        <span class="menu-name">Quarterly <em>brand audit</em></span>
+        <span class="menu-dots"></span>
+        <span class="menu-price">premium</span>
+        <p class="menu-desc">A long, slow look at your whole online presence — and how to keep refining it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section class="process">
+  <div class="container">
+    <div class="process-head">
+      <span class="eye">— The process</span>
+      <h2>Four <em>quiet weeks</em> until you have a feed worth lingering on.</h2>
+    </div>
+    <div class="process-track">
+      <div class="process-step rv">
+        <div class="process-dot"></div>
+        <span class="process-week">— Week 1</span>
+        <h3>We <em>talk.</em></h3>
+        <p>A short message exchange. You tell me about the room, the menu, the mood. I do the listening.</p>
+      </div>
+      <div class="process-step rv d1">
+        <div class="process-dot"></div>
+        <span class="process-week">— Week 2</span>
+        <h3>I <em>plan.</em></h3>
+        <p>A month-long content calendar drafted for your restaurant. You approve. We adjust until it fits.</p>
+      </div>
+      <div class="process-step rv d2">
+        <div class="process-dot"></div>
+        <span class="process-week">— Week 3</span>
+        <h3>We <em>shoot.</em></h3>
+        <p>You send phone photos or I work with what you already have. I style, edit, and write captions.</p>
+      </div>
+      <div class="process-step rv d3">
+        <div class="process-dot"></div>
+        <span class="process-week">— Week 4</span>
+        <h3>It <em>begins.</em></h3>
+        <p>Posts go up on schedule. Stories run daily. We meet monthly to refine. Quietly, it compounds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY SOLO ── -->
+<section class="why">
+  <div class="why-head">
+    <span class="eye no-line" style="justify-content:center">— A small comparison</span>
+    <h2>Why one person, <em>not an agency.</em></h2>
+    <p>Both can post on Tuesday. Here is what is different.</p>
+  </div>
+
+  <div class="compare">
+    <div class="compare-col muted rv">
+      <span class="compare-tag">Most agencies</span>
+      <div class="compare-title">A team. A queue. A template.</div>
+      <ul class="compare-list">
+        <li class="compare-li">A junior handles your account alongside twenty others.</li>
+        <li class="compare-li">Templates and presets reused across every client.</li>
+        <li class="compare-li">An account manager translates between you and the actual creator.</li>
+        <li class="compare-li">Six or twelve-month contracts with cancellation fees.</li>
+        <li class="compare-li">Reports full of vanity metrics that say very little.</li>
+      </ul>
+    </div>
+    <div class="compare-col featured rv d1">
+      <span class="compare-tag">Me</span>
+      <div class="compare-title">One person. Your room. <em>Done well.</em></div>
+      <ul class="compare-list">
+        <li class="compare-li">One person on your account — me, every time.</li>
+        <li class="compare-li">Every post designed for your room specifically.</li>
+        <li class="compare-li">You write to me, I read it, I reply. No middleman.</li>
+        <li class="compare-li">No contracts. Leave any month, no fees.</li>
+        <li class="compare-li">A short, honest report each month — plain words.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-head">
+      <div class="rv">
+        <span class="eye">— Pricing</span>
+        <h2>Three simple <em>arrangements.</em></h2>
+      </div>
+      <p class="rv d1">No contracts. No lock-in. The first month is invoiced after delivery — so you only pay if you like what you see.</p>
+    </div>
+
+    <div class="tiers rv">
+      <div class="tier">
+        <div class="tier-name">Starter</div>
+        <div class="tier-for">For new openings</div>
+        <div class="tier-price"><sup>$</sup>299<sub>/ month</sub></div>
+        <ul class="tier-list">
+          <li class="tier-li">16 posts a month</li>
+          <li class="tier-li">2 short reels</li>
+          <li class="tier-li">One platform</li>
+          <li class="tier-li">Captions &amp; hashtags</li>
+          <li class="tier-li">Direct line to me</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Begin</a>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-name">Growth</div>
+        <div class="tier-for">For finding your voice</div>
+        <div class="tier-price"><sup>$</sup>499<sub>/ month</sub></div>
+        <ul class="tier-list">
+          <li class="tier-li">24 posts a month</li>
+          <li class="tier-li">4 short reels</li>
+          <li class="tier-li">Instagram + Facebook</li>
+          <li class="tier-li">Monthly content calendar</li>
+          <li class="tier-li">Monthly strategy report</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Begin</a>
+      </div>
+
+      <div class="tier">
+        <div class="tier-name">Premium</div>
+        <div class="tier-for">For being well known</div>
+        <div class="tier-price"><sup>$</sup>799<sub>/ month</sub></div>
+        <ul class="tier-list">
+          <li class="tier-li">30 posts a month</li>
+          <li class="tier-li">6 reels + ad creative</li>
+          <li class="tier-li">All four platforms</li>
+          <li class="tier-li">Weekly content review</li>
+          <li class="tier-li">Quarterly brand audit</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Begin</a>
+      </div>
+    </div>
+
+    <p class="pricing-note">— Every plan begins with a free two-week trial. You only pay after the first month is delivered. —</p>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-head rv">
+        <span class="eye">— Questions, answered</span>
+        <h2>The things people <em>ask first.</em></h2>
+        <p class="faq-help">Still wondering something? Write to me directly — I read every message.</p>
+      </div>
+      <div class="faq-list rv d1">
+        <div class="faq-item">
+          <button class="faq-q" type="button">Do I need professional photos before we begin?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Not at all. Phone photos work perfectly — a quick snap from the kitchen pass is often the best thing to send me. When you have nothing new to share, I supplement with high-quality footage suited to your cuisine. You never have to organise a shoot.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How does the two-week free trial work?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Send me a message with your Instagram handle, a little about your restaurant, and any photos or references you have. I will produce two weeks of real content — real posts, real captions, designed for your brand. No payment details. No obligation. You decide if you want to continue.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">You are in Ethiopia — does the timezone cause problems?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Not in practice. Content is planned and scheduled in advance, so everything posts at the right time for your audience. I reply to messages within 24 hours. Most clients find working asynchronously feels calmer than constant calls.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How do I pay from the US or UK?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">I accept payments via Wise and Payoneer — both work like a local bank transfer from your side. You pay in USD or GBP. The first month is invoiced after the work is delivered. After that, monthly in advance.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Can I cancel if it is not working out?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Yes, at any time. There are no contracts and no lock-in. Pause or stop with a single message before the next billing date. I would rather earn your business each month than hold you to an agreement.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">When will I start seeing results?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Social media builds gradually — it is not a quick sales tool. What you will see quickly is a more professional, consistent presence. Sales usually follow trust, and trust builds over months of consistency, not weeks of activity.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How many restaurants do you work with at once?<span class="faq-q-ic">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">I keep my client list small on purpose. If I am at capacity I will tell you and offer a short waitlist — I will not stretch myself thin just to take on more work.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="rv">
+        <span class="eye">— Get in touch</span>
+        <h2 class="contact-h">Let us <em>begin.</em></h2>
+        <p class="contact-sub">
+          A short message is enough to start. Tell me about your restaurant and
+          I will come back to you within 24 hours.
+        </p>
+        <div class="contact-meta">
+          <div class="contact-meta-row"><span class="ic">@</span><span>info@temesgena.com</span></div>
+          <div class="contact-meta-row"><span class="ic">✦</span><span>Reply <b>within 24 hours</b></span></div>
+          <div class="contact-meta-row"><span class="ic">○</span><span>No calls required — <b>writing is enough</b></span></div>
+          <div class="contact-meta-row"><span class="ic">◇</span><span>Two-week trial, <b>no payment</b></span></div>
+        </div>
+      </div>
+
+      <form class="form rv d1" id="cform">
+        <div class="form-row">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" placeholder="Your name" required></div>
+          <div class="field"><label for="f-biz">Restaurant name</label><input id="f-biz" name="restaurant" type="text" placeholder="Restaurant name" required></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="f-type">Restaurant type</label>
+            <select id="f-type" name="type" required>
+              <option value="">Choose one…</option>
+              <option>Italian / Pasta</option>
+              <option>French / Bistro</option>
+              <option>Specialty coffee</option>
+              <option>Bakery / Patisserie</option>
+              <option>Wine bar</option>
+              <option>Brunch / All-day</option>
+              <option>Cocktail bar</option>
+              <option>Fine dining</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-interest">Interested in</label>
+            <select id="f-interest" name="interest" required>
+              <option value="">Choose one…</option>
+              <option>Two-week free trial</option>
+              <option>Starter — $299</option>
+              <option>Growth — $499</option>
+              <option>Premium — $799</option>
+              <option>Just curious</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@email.com" required></div>
+          <div class="field"><label for="f-ig">Instagram (optional)</label><input id="f-ig" name="instagram" type="text" placeholder="@yourrestaurant"></div>
+        </div>
+        <div class="field"><label for="f-msg">A short note</label><textarea id="f-msg" name="message" placeholder="Tell me a little about your room and the people who come for it..."></textarea></div>
+        <button class="form-submit" id="submitBtn" type="submit">Send the message →</button>
+        <p class="form-note">— A real person reads this. I reply within 24 hours. —</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-l">
+      <div class="footer-name">Temesgen <em>Agegnehu</em></div>
+      <p class="footer-tag">A one-person studio for restaurants that care how they are seen online. Two-week trial, no contracts, slow work done well.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <div class="f-col-t">Pages</div>
+        <ul class="f-list">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#menu">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="work.html">Full portfolio</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-t">Contact</div>
+        <ul class="f-list">
+          <li><a href="mailto:info@temesgena.com">info@temesgena.com</a></li>
+          <li><a href="#contact">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-mark" aria-hidden="true">Temesgen</div>
+
+  <div class="footer-bot">
+    <span>© 2026 Temesgen Agegnehu</span>
+    <span>Made slowly, in Addis Ababa</span>
+  </div>
+</footer>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lb" id="lb" aria-hidden="true">
+  <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Previous">‹</button>
+  <button class="lb-arrow lb-next" id="lb-next" aria-label="Next">›</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+// ── Image sources ──
+var TOTAL = 177;
+function imgSrc(n){ return 'images/img-' + String(n).padStart(3,'0') + '.png'; }
+var FEATURED_ROW_1 = [1, 12, 23, 34, 45, 56, 67, 78, 89, 100, 111, 122];
+var FEATURED_ROW_2 = [7, 18, 29, 40, 51, 62, 73, 84, 95, 106, 117, 128, 139, 150, 161];
+var PHONE_IMAGES   = [2, 30, 60, 90, 120, 150];
+var FEED_IMAGES    = [5, 25, 50, 75, 95, 115, 135, 155, 175];
+
+var allTileSrcs = [];
+
+// Use existing index if src already in list — prevents duplicates from marquee clones
+function pushUnique(src){
+  var existing = allTileSrcs.indexOf(src);
+  if(existing >= 0) return existing;
+  allTileSrcs.push(src);
+  return allTileSrcs.length - 1;
+}
+
+// ── Phone mockup rotating images ──
+(function(){
+  var screen = document.getElementById('phone-screen');
+  if(!screen) return;
+  PHONE_IMAGES.forEach(function(n, i){
+    var img = document.createElement('img');
+    img.src = imgSrc(n);
+    img.loading = 'lazy';
+    img.alt = '';
+    if(i === 0) img.classList.add('on');
+    screen.insertBefore(img, screen.firstChild);
+  });
+  var imgs = screen.querySelectorAll('img');
+  if(imgs.length === 0) return;
+  var cur = 0;
+  setInterval(function(){
+    imgs[cur].classList.remove('on');
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].classList.add('on');
+  }, 2800);
+})();
+
+// ── Profile pic ──
+(function(){
+  var pic = document.getElementById('profile-pic');
+  if(!pic) return;
+  var img = document.createElement('img');
+  img.src = imgSrc(45);
+  img.loading = 'lazy';
+  img.alt = '';
+  pic.appendChild(img);
+})();
+
+// ── Feed preview grid (9 images) ──
+(function(){
+  var grid = document.getElementById('feed-grid');
+  if(!grid) return;
+  FEED_IMAGES.forEach(function(n){
+    var src = imgSrc(n);
+    var idx = pushUnique(src);
+    var tile = document.createElement('div');
+    tile.className = 'feed-tile';
+    tile.dataset.idx = idx;
+    var img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    img.alt = '';
+    tile.appendChild(img);
+    grid.appendChild(tile);
+  });
+})();
+
+// ── Work marquees (duplicated for seamless loop, shared indices for lightbox) ──
+function buildMarquee(elId, indices){
+  var track = document.getElementById(elId);
+  if(!track) return;
+  function tile(n){
+    var src = imgSrc(n);
+    var idx = pushUnique(src);
+    var el = document.createElement('div');
+    el.className = 'mq-tile';
+    el.dataset.idx = idx;
+    el.innerHTML = '<img src="'+ src +'" alt="" loading="lazy">';
+    return el;
+  }
+  indices.forEach(function(n){ track.appendChild(tile(n)); });
+  indices.forEach(function(n){ track.appendChild(tile(n)); });
+}
+buildMarquee('mq-1', FEATURED_ROW_1);
+buildMarquee('mq-2', FEATURED_ROW_2);
+
+// ── Lightbox ──
+var lb = document.getElementById('lb');
+var lbImg = document.getElementById('lb-img');
+var lbIdx = 0;
+function openLb(i){
+  if(allTileSrcs.length === 0) return;
+  lbIdx = (i + allTileSrcs.length) % allTileSrcs.length;
+  lbImg.src = allTileSrcs[lbIdx];
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb(){
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.mq-tile, .feed-tile').forEach(function(el){
+  el.addEventListener('click', function(){
+    openLb(parseInt(el.dataset.idx, 10));
+  });
+});
+document.getElementById('lb-close').addEventListener('click', closeLb);
+document.getElementById('lb-prev').addEventListener('click', function(){ openLb(lbIdx - 1); });
+document.getElementById('lb-next').addEventListener('click', function(){ openLb(lbIdx + 1); });
+lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+document.addEventListener('keydown', function(e){
+  if(!lb.classList.contains('open')) return;
+  if(e.key === 'Escape') closeLb();
+  if(e.key === 'ArrowLeft') openLb(lbIdx - 1);
+  if(e.key === 'ArrowRight') openLb(lbIdx + 1);
+});
+
+// ── Hero text reveal ──
+function fireHero(){
+  var eye = document.querySelector('.hero-eye');
+  if(eye) eye.classList.add('in');
+  document.querySelectorAll('.hero-h1 .ln').forEach(function(el, i){
+    setTimeout(function(){ el.classList.add('in'); }, 200 + i * 120);
+  });
+  setTimeout(function(){ var el = document.querySelector('.hero-sub'); if(el) el.classList.add('in'); }, 700);
+  setTimeout(function(){ var el = document.querySelector('.hero-ctas'); if(el) el.classList.add('in'); }, 900);
+  setTimeout(function(){ var el = document.querySelector('.hero-meta-strip'); if(el) el.classList.add('in'); }, 1100);
+  setTimeout(function(){ var el = document.querySelector('.hero-phone'); if(el) el.classList.add('in'); }, 500);
+}
+if(document.readyState === 'complete') fireHero();
+else window.addEventListener('load', fireHero);
+
+// ── Section reveals ──
+var rObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); rObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.rv').forEach(function(el){ rObs.observe(el); });
+
+// ── Nav scroll state + scroll progress ──
+var nav = document.getElementById('nav');
+var progress = document.getElementById('progress');
+function onScroll(){
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0';
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ── FAQ accordion ──
+document.querySelectorAll('.faq-item').forEach(function(item){
+  var ans = item.querySelector('.faq-a');
+  var btn = item.querySelector('.faq-q');
+  btn.addEventListener('click', function(){
+    var open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(o){
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = '0';
+    });
+    if(!open){
+      item.classList.add('open');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+});
+
+// ── Contact form (Web3Forms) ──
+document.getElementById('cform').addEventListener('submit', function(e){
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  var form = e.currentTarget;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  var fd = new FormData();
+  fd.append('access_key', '7c1a5e25-9978-49c1-a39e-4fe532126304');
+  fd.append('subject', 'New enquiry — Temesgen restaurant studio site');
+  fd.append('from_name', 'Temesgen Restaurant Studio');
+  fd.append('name', document.getElementById('f-name').value);
+  fd.append('email', document.getElementById('f-email').value);
+  fd.append('Restaurant', document.getElementById('f-biz').value);
+  fd.append('Restaurant Type', document.getElementById('f-type').value);
+  fd.append('Interested In', document.getElementById('f-interest').value);
+  fd.append('Instagram', document.getElementById('f-ig').value || 'Not provided');
+  fd.append('Message', document.getElementById('f-msg').value || '(none)');
+  fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.success){
+        btn.textContent = 'Message received — I will reply within 24 hours ✓';
+        btn.classList.add('sent');
+        form.reset();
+      } else {
+        btn.textContent = 'Something went wrong — email info@temesgena.com directly';
+        btn.disabled = false;
+      }
+    })
+    .catch(function(){
+      btn.textContent = 'Something went wrong — email info@temesgena.com directly';
+      btn.disabled = false;
+    });
+});
+
+// ── Magnetic primary CTA buttons (desktop only — skip on touch) ──
+if(!('ontouchstart' in window)){
+  document.querySelectorAll('.btn-primary, .nav-cta').forEach(function(btn){
+    btn.addEventListener('mousemove', function(e){
+      var r = btn.getBoundingClientRect();
+      var x = e.clientX - r.left - r.width/2;
+      var y = e.clientY - r.top - r.height/2;
+      btn.style.transform = 'translate(' + (x*0.18) + 'px,' + (y*0.3) + 'px)';
+    });
+    btn.addEventListener('mouseleave', function(){ btn.style.transform = ''; });
+  });
+}
+</script>
+</body>
+</html>
