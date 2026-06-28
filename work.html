@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The work — Temesgen Agegnehu</title>
+<meta name="description" content="A complete portfolio of social media work for restaurants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f7f4ee;
+  --bg-2:#efeae0;
+  --ink:#101010;
+  --muted:rgba(16,16,16,.55);
+  --muted-2:rgba(16,16,16,.4);
+  --line:rgba(16,16,16,.12);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--bg)}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,244,238,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:24px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid transparent;
+  transition:border-color .3s,padding .3s;
+}
+nav.scrolled{border-color:var(--line);padding:18px 32px}
+.nav-name{font-family:var(--serif);font-size:22px;font-style:italic;font-weight:400}
+.nav-links{display:flex;gap:32px;font-size:13px}
+.nav-links a{color:var(--muted);transition:color .2s}
+.nav-links a:hover, .nav-links a.current{color:var(--ink)}
+.nav-cta{
+  padding:9px 18px;border:1px solid var(--ink);border-radius:99px;
+  font-size:12px;letter-spacing:.05em;
+  transition:background .3s,color .3s;
+  color:var(--ink) !important;
+}
+.nav-cta:hover{background:var(--ink);color:var(--bg) !important}
+
+/* ── HEADER ── */
+.page-head{padding:120px 32px 80px;max-width:1480px;margin:0 auto}
+.page-eye{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:36px;display:inline-flex;align-items:center;gap:14px}
+.page-eye::before{content:'';width:28px;height:1px;background:var(--ink);opacity:.5}
+
+.page-h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(54px,9vw,150px);line-height:.94;letter-spacing:-.025em;
+  margin-bottom:48px;
+}
+.page-h1 em{font-style:italic}
+
+.page-meta{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  gap:40px;flex-wrap:wrap;
+  padding-top:36px;border-top:1px solid var(--line);
+}
+.page-sub{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--ink);max-width:560px;line-height:1.4}
+.page-count{
+  font-family:var(--serif);font-size:14px;font-style:italic;color:var(--muted);
+  display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+}
+.page-count b{font-family:var(--serif);font-style:italic;font-size:60px;font-weight:400;color:var(--ink);line-height:1;letter-spacing:-.02em}
+
+/* ── EDITORIAL GRID ── */
+.editorial{padding:60px 0 80px}
+
+/* Each spread is a labeled section with its own grid layout */
+.spread{
+  max-width:1480px;margin:0 auto;
+  padding:24px 32px;position:relative;
+}
+
+/* Spread label on the side */
+.spread-label{
+  position:absolute;left:32px;top:24px;
+  font-family:var(--serif);font-size:13px;font-style:italic;color:var(--muted-2);
+  letter-spacing:.02em;
+  pointer-events:none;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.spread.in .spread-label{opacity:1;transform:none}
+
+/* When spread has a side label, push content right */
+.spread-inner{display:grid;gap:18px;padding-top:18px}
+
+/* === LAYOUT PATTERNS === */
+
+/* A — 3 portraits equal */
+.layout-trio{grid-template-columns:1fr 1fr 1fr}
+.layout-trio .cell{aspect-ratio:4/5}
+
+/* B — big landscape feature, full bleed */
+.layout-feature{grid-template-columns:1fr}
+.layout-feature .cell{aspect-ratio:16/9}
+
+/* C — duo, two portraits side by side */
+.layout-duo{grid-template-columns:1fr 1fr;max-width:1100px;margin:0 auto}
+.layout-duo .cell{aspect-ratio:4/5}
+
+/* D — asymmetric: big left + 2 stacked right */
+.layout-asym{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr 1fr}
+.layout-asym .cell:first-child{grid-row:1 / 3;aspect-ratio:auto}
+.layout-asym .cell:not(:first-child){aspect-ratio:3/2}
+
+/* E — offset: small centered + smaller flanking */
+.layout-offset{grid-template-columns:1fr 2.2fr 1fr;align-items:center}
+.layout-offset .cell{aspect-ratio:4/5}
+.layout-offset .cell:nth-child(1),
+.layout-offset .cell:nth-child(3){aspect-ratio:3/4;opacity:.85;transform:scale(.92);transition:opacity .5s,transform .6s var(--ease)}
+.layout-offset:hover .cell:nth-child(1),
+.layout-offset:hover .cell:nth-child(3){opacity:1;transform:scale(.95)}
+
+/* F — quad: 4 portraits */
+.layout-quad{grid-template-columns:1fr 1fr 1fr 1fr}
+.layout-quad .cell{aspect-ratio:3/4}
+
+/* G — vertical hero: tall landscape with sidebar */
+.layout-hero{grid-template-columns:2fr 1fr;align-items:start}
+.layout-hero .cell:first-child{aspect-ratio:5/4}
+.layout-hero .cell:nth-child(2){aspect-ratio:3/4}
+
+/* H — narrow: single centered portrait */
+.layout-narrow{grid-template-columns:1fr;max-width:620px;margin:0 auto}
+.layout-narrow .cell{aspect-ratio:4/5}
+
+/* I — wide trio: short landscapes */
+.layout-strip{grid-template-columns:1fr 1fr 1fr}
+.layout-strip .cell{aspect-ratio:3/4}
+
+/* J — diptych offset: 2 with negative space */
+.layout-diptych{grid-template-columns:1fr 1fr 1fr;align-items:center}
+.layout-diptych .cell:first-child{aspect-ratio:3/4;grid-column:1 / 2}
+.layout-diptych .cell:nth-child(2){aspect-ratio:4/5;grid-column:2 / 4}
+
+/* ── CELL (image tile) ── */
+.cell{
+  position:relative;overflow:hidden;
+  background:rgba(16,16,16,.04);
+  border-radius:4px;cursor:zoom-in;
+  opacity:0;transform:translateY(24px);
+  transition:opacity 1s var(--ease),transform 1s var(--ease),box-shadow .4s;
+}
+.spread.in .cell{opacity:1;transform:none}
+.spread.in .cell:nth-child(2){transition-delay:.1s}
+.spread.in .cell:nth-child(3){transition-delay:.2s}
+.spread.in .cell:nth-child(4){transition-delay:.3s}
+.cell:hover{box-shadow:0 18px 50px rgba(0,0,0,.18)}
+.cell img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .9s var(--ease);
+  opacity:0;
+}
+.cell.loaded img{opacity:1}
+.cell:hover img{transform:scale(1.04)}
+
+/* Skeleton */
+.cell::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,rgba(16,16,16,.04),rgba(16,16,16,.08),rgba(16,16,16,.04));
+  background-size:200% 100%;animation:shimmer 1.6s linear infinite;
+}
+.cell.loaded::before{display:none}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Divider every N spreads — a chapter rest */
+.chapter{
+  max-width:1480px;margin:80px auto;padding:0 32px;
+  display:flex;justify-content:center;align-items:center;gap:24px;
+  font-family:var(--serif);font-size:14px;font-style:italic;color:var(--muted);
+}
+.chapter::before,.chapter::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* ── FOOTER CTA ── */
+.end{
+  padding:160px 32px;text-align:center;border-top:1px solid var(--line);
+  max-width:1480px;margin:0 auto;
+}
+.end-h{font-family:var(--serif);font-size:clamp(44px,6vw,80px);font-weight:400;line-height:1;margin-bottom:32px;letter-spacing:-.02em}
+.end-h em{font-style:italic}
+.end-mail{font-family:var(--serif);font-size:24px;font-style:italic;border-bottom:1px solid var(--ink);padding-bottom:4px}
+.end-back{display:inline-block;margin-top:60px;font-size:13px;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px;transition:color .2s,border-color .2s}
+.end-back:hover{color:var(--ink);border-color:var(--ink)}
+
+footer{padding:36px 32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+.foot-mark{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ink)}
+
+/* ── LIGHTBOX ── */
+.lb{position:fixed;inset:0;z-index:200;background:rgba(16,16,16,.94);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px)}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;transform:scale(.94);transition:transform .4s var(--ease);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb.open img{transform:scale(1)}
+.lb-close{position:fixed;top:24px;right:28px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .3s}
+.lb-close:hover{background:rgba(255,255,255,.18);transform:rotate(90deg)}
+.lb-arrow{position:fixed;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb-arrow:hover{background:rgba(255,255,255,.18)}
+.lb-prev{left:24px}.lb-next{right:24px}
+.lb-counter{position:fixed;bottom:24px;left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.1em;font-family:var(--serif);font-style:italic}
+
+/* ── RESPONSIVE ── */
+@media (max-width:1000px){
+  .nav-links{display:none}
+  .page-head{padding:80px 20px 50px}
+  .page-meta{flex-direction:column;align-items:flex-start;gap:20px}
+  .page-count{align-items:flex-start}
+  .spread{padding:18px 20px}
+  .spread-label{left:20px;top:20px}
+  .spread-inner{padding-top:36px;gap:10px}
+  /* Collapse complex layouts to safer mobile versions */
+  .layout-trio,.layout-quad,.layout-strip{grid-template-columns:1fr 1fr}
+  .layout-asym,.layout-hero,.layout-offset,.layout-duo,.layout-diptych{grid-template-columns:1fr;grid-template-rows:auto}
+  .layout-asym .cell:first-child,.layout-asym .cell:not(:first-child),
+  .layout-hero .cell:first-child,.layout-hero .cell:nth-child(2),
+  .layout-offset .cell,.layout-duo .cell,
+  .layout-diptych .cell:first-child,.layout-diptych .cell:nth-child(2){
+    aspect-ratio:4/5;grid-column:auto;grid-row:auto;opacity:1;transform:none;
+  }
+  .layout-feature .cell{aspect-ratio:4/3}
+  .end{padding:100px 20px}
+  footer{padding:24px 20px;flex-direction:column}
+  .lb-prev{left:8px}.lb-next{right:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="index.html" class="nav-name">Temesgen</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="work.html" class="current">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- ── HEADER ── -->
+<header class="page-head">
+  <span class="page-eye">— Volume I</span>
+  <h1 class="page-h1">The <em>work,</em><br>arranged like<br>a small magazine.</h1>
+  <div class="page-meta">
+    <p class="page-sub">
+      Every plate, room, and ritual I've shot for restaurants.
+      Click any image to see it full size.
+    </p>
+    <div class="page-count">
+      <b>177</b>
+      pieces in this volume
+    </div>
+  </div>
+</header>
+
+<!-- ── EDITORIAL GRID ── -->
+<main class="editorial" id="editorial">
+  <!-- spreads injected by JS -->
+</main>
+
+<!-- ── END CTA ── -->
+<section class="end">
+  <h2 class="end-h">That is the <em>volume.</em></h2>
+  <a href="mailto:info@temesgena.com" class="end-mail">info@temesgena.com</a>
+  <div>
+    <a href="index.html" class="end-back">← Back to the home page</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-mark">Temesgen <em>Agegnehu</em></span>
+  <span>© 2026 — Made slowly, in Addis Ababa</span>
+</footer>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lb" id="lb">
+  <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Previous">‹</button>
+  <button class="lb-arrow lb-next" id="lb-next" aria-label="Next">›</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<script>
+// ── EDITORIAL LAYOUT GENERATOR ──
+// Pattern = how many images and which CSS layout class
+var PATTERNS = [
+  { n: 3, cls: 'layout-trio' },
+  { n: 1, cls: 'layout-feature' },
+  { n: 3, cls: 'layout-asym' },
+  { n: 4, cls: 'layout-quad' },
+  { n: 2, cls: 'layout-duo' },
+  { n: 3, cls: 'layout-offset' },
+  { n: 2, cls: 'layout-hero' },
+  { n: 1, cls: 'layout-narrow' },
+  { n: 3, cls: 'layout-strip' },
+  { n: 2, cls: 'layout-diptych' }
+];
+
+var TOTAL = 177;
+var sources = [];
+for(var i = 1; i <= TOTAL; i++){
+  sources.push('images/img-' + String(i).padStart(3,'0') + '.png');
+}
+
+var editorial = document.getElementById('editorial');
+var idx = 0;
+var spreadNum = 0;
+var chapterEvery = 6; // insert a chapter divider every N spreads
+var pi = 0;
+
+while(idx < TOTAL){
+  var pat = PATTERNS[pi % PATTERNS.length];
+  pi++;
+  // Don't start a spread we can't fully fill
+  if(idx + pat.n > TOTAL){
+    // try to find a smaller pattern that fits
+    var remaining = TOTAL - idx;
+    var fit = PATTERNS.filter(function(p){ return p.n === remaining; })[0];
+    if(fit) pat = fit;
+    else pat = { n: 1, cls: 'layout-narrow' };
+  }
+
+  spreadNum++;
+  var spread = document.createElement('section');
+  spread.className = 'spread';
+
+  var label = document.createElement('div');
+  label.className = 'spread-label';
+  label.textContent = '— Spread ' + String(spreadNum).padStart(2,'0');
+  spread.appendChild(label);
+
+  var inner = document.createElement('div');
+  inner.className = 'spread-inner ' + pat.cls;
+
+  for(var j = 0; j < pat.n && idx < TOTAL; j++){
+    var src = sources[idx];
+    idx++;
+    var cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.src = src;
+    cell.dataset.idx = (idx - 1);
+    var img = document.createElement('img');
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('load', function(){ this.parentElement.classList.add('loaded'); });
+    cell.appendChild(img);
+    inner.appendChild(cell);
+  }
+
+  spread.appendChild(inner);
+  editorial.appendChild(spread);
+
+  // Chapter break
+  if(spreadNum % chapterEvery === 0 && idx < TOTAL){
+    var chap = document.createElement('div');
+    chap.className = 'chapter';
+    chap.textContent = '— Chapter ' + (Math.floor(spreadNum / chapterEvery) + 1) + ' —';
+    editorial.appendChild(chap);
+  }
+}
+
+// ── Lazy load with IntersectionObserver ──
+var cells = Array.from(document.querySelectorAll('.cell'));
+var spreads = Array.from(document.querySelectorAll('.spread'));
+
+var loadObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var cell = e.target;
+      var img = cell.querySelector('img');
+      if(!img.src) img.src = cell.dataset.src;
+      loadObs.unobserve(cell);
+    }
+  });
+}, { rootMargin: '700px 0px' });
+cells.forEach(function(c){ loadObs.observe(c); });
+
+// ── Spread reveal (whole spread fades up together) ──
+var revealObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+spreads.forEach(function(s){ revealObs.observe(s); });
+
+// ── Lightbox ──
+var lb = document.getElementById('lb');
+var lbImg = document.getElementById('lb-img');
+var lbCounter = document.getElementById('lb-counter');
+var lbIdx = 0;
+function openLb(i){
+  lbIdx = (i + sources.length) % sources.length;
+  lbImg.src = sources[lbIdx];
+  lbCounter.textContent = (lbIdx + 1) + ' / ' + sources.length;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb(){
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+cells.forEach(function(cell){
+  cell.addEventListener('click', function(){ openLb(parseInt(cell.dataset.idx, 10)); });
+});
+document.getElementById('lb-close').addEventListener('click', closeLb);
+document.getElementById('lb-prev').addEventListener('click', function(){ openLb(lbIdx - 1); });
+document.getElementById('lb-next').addEventListener('click', function(){ openLb(lbIdx + 1); });
+lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+document.addEventListener('keydown', function(e){
+  if(!lb.classList.contains('open')) return;
+  if(e.key === 'Escape') closeLb();
+  if(e.key === 'ArrowLeft') openLb(lbIdx - 1);
+  if(e.key === 'ArrowRight') openLb(lbIdx + 1);
+});
+
+// ── Nav scroll state ──
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+</script>
+</body>
+</html>
